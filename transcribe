@@ -73,7 +73,7 @@ function print-error() {
 }
 
 function help() {
-  echo "Usage: $0 [-h] [-l <en|de>] [-i <input file>]"
+  echo "Usage: $0 [-h] -l <en|de> -i <input file> [-o <output file>]"
 }
 
 function output-test() {
