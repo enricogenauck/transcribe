@@ -72,9 +72,6 @@ function output-test() {
 }
 
 #### Main function
-input_file="$1"
-language="$2"
-
 while getopts ":hl:i:o:" o; do
     case "${o}" in
         l)
@@ -106,7 +103,6 @@ if is_type "${input_file}" "video"; then
 fi
 
 if is_type "${input_file}" "audio"; then
-  echo "$input_file"
   catch text errors transcribe "${input_file}"
 
   if [ $? -eq 0 ] ; then
