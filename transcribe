@@ -45,13 +45,23 @@ function extract_audio() {
 
 function transcribe() {
   local file="$1"
+  local lang="$2"
 
-  vosk-transcriber -l en \
+  vosk-transcriber -l "${lang}" \
                    -t srt \
-                   -i "$file" \
+                   -i "${file}" \
                    --log-level FATAL \
-                   --model-name vosk-model-en-us-0.22
+                   --model-name "$(model ${lang})"
+}
 
+function model() {
+  local lang="$1"
+
+  if [ "${lang}" = "de" ]; then
+    echo "vosk-model-de-tuda-0.6-900k"
+  elif [ "${lang}" = "en" ]; then
+    echo "vosk-model-en-us-0.22"
+  fi
 }
 
 function print-error() {
@@ -103,7 +113,7 @@ if is_type "${input_file}" "video"; then
 fi
 
 if is_type "${input_file}" "audio"; then
-  catch text errors transcribe "${input_file}"
+  catch text errors transcribe "${input_file}" "${lang}"
 
   if [ $? -eq 0 ] ; then
     if [ -z "${output_file}" ]; then
